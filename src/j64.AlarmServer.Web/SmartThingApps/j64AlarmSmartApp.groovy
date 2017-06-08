@@ -74,9 +74,9 @@ def installAllDevices(partitions, zones) {
 
 	// Add any partitions that have not already been created
 	partitions.each { p -> 
-		def networkId = "partition" + p.Id
+		def networkId = "partition" + p.id
         def partitionDevice = children.find { item -> item.device.deviceNetworkId == networkId }
-        def name = "j64:" + p.Name + " Partition"
+        def name = "j64:" + p.name + " Partition"
 
 		if (partitionDevice == null) {
         	log.debug "Add Partition: ${name} => ${networkId}"
@@ -90,13 +90,13 @@ def installAllDevices(partitions, zones) {
         }
             
         // always set the current status for the partition
-        partitionDevice.setAlarm(p.InAlarm, p.IsArmed)
-        partitionDevice.setMode(p.ArmingMode, p.ReadyToArm)
+        partitionDevice.setAlarm(p.inAlarm, p.isArmed)
+        partitionDevice.setMode(p.armingMode, p.readyToArm)
         
         // Add an alarm device for this partition
-		networkId = "alarm" + p.Id
+		networkId = "alarm" + p.id
         def alarmDevice = children.find { item -> item.device.deviceNetworkId == networkId }
-        name = "j64:" + p.Name + " Alarm"
+        name = "j64:" + p.name + " Alarm"
 
 		if (alarmDevice == null) {
         	log.debug "Add Alarm: ${name} => ${networkId}"
@@ -109,13 +109,13 @@ def installAllDevices(partitions, zones) {
         }
             
         // always set the current status for the alarm
-        alarmDevice.setAlarm(p.InAlarm)
+        alarmDevice.setAlarm(p.inAlarm)
 	}
     
     zones.each { z ->
-		def networkId = "zone" + z.Id
+		def networkId = "zone" + z.id
         def zoneDevice = children.find { item -> item.device.deviceNetworkId == networkId }
-        def name = "j64:" + z.Name
+        def name = "j64:" + z.name
         def zoneType = "j64 Contact Zone"
         if ( z.ZoneType == 1 )
            zoneType = "j64 Motion Zone"
